@@ -130,6 +130,13 @@ contract TMint is ERC20,Ownable {
     }
 
     /**
+     * @dev Lets the owner to stop the presale by setting isPreSaleActive to false
+     */
+    function deactivatePresale()public onlyOwner returns(bool){
+        return isPresaleActive=false;
+    }
+
+    /**
      * @dev Start public sale
      */  
     function startPublicSale() public onlyOwner {
@@ -157,6 +164,13 @@ contract TMint is ERC20,Ownable {
         //token.mint(msg.sender, tokensToMint);
 
         emit PublicSaleContribution(msg.sender, msg.value,tokensToMint);
+    }
+
+    /**
+     * @dev Owner can deactivate publicsale by setting isPublicSaleActive to false
+     */
+    function deactivatePublicsale()public onlyOwner returns(bool){
+        return isPublicSaleActive=false;
     }
 
     /**

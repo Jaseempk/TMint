@@ -28,9 +28,21 @@ contract TMintTest is Test{
         vm.deal(address(1),0.5 ether);
         vm.startPrank(address(1));
         tMint.contributeToPresale{value:0.5 ether}();
-        assertEq(tMint.presaleRaisedAmount(),0.5 ether);
+        assertEq(tMint.etherDepositted(address(1)),0.5 ether); //test to check whether the address of the contributor and corresponding contribution is recorded
+        assertEq(tMint.presaleRaisedAmount(),0.5 ether); //Tests whether presaleRaisedAmount is updated after a successful contribution
 
         vm.stopPrank();
 
     }
+    function testFailIfSaleIsInactive()public{
+        tMint.deactivatePresale();
+        bytes4 expectedSelectedError=bytes4(keccak256("TMint__PresaleInactive()")); 
+
+        vm.startPrank(address(1));
+        vm.deal(address(1),0.5 ether);
+        vm.expectRevert(expectedSelectedError);
+        tMint.contributeToPresale{value:0.5 ether}();
+        vm.stopPrank();
+    }
+
 }
