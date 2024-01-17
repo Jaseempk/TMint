@@ -132,8 +132,8 @@ contract TMint is ERC20,Ownable {
     /**
      * @dev Lets the owner to stop the presale by setting isPreSaleActive to false
      */
-    function deactivatePresale()public onlyOwner returns(bool){
-        return isPresaleActive=false;
+    function deactivatePresale()public onlyOwner {
+        isPresaleActive=false;
     }
 
     /**
@@ -169,8 +169,8 @@ contract TMint is ERC20,Ownable {
     /**
      * @dev Owner can deactivate publicsale by setting isPublicSaleActive to false
      */
-    function deactivatePublicsale()public onlyOwner returns(bool){
-        return isPublicSaleActive=false;
+    function deactivatePublicsale()public onlyOwner{
+         isPublicSaleActive=false;
     }
 
     /**
@@ -194,7 +194,7 @@ contract TMint is ERC20,Ownable {
         if(!(etherDepositted[msg.sender]>0)) revert TMint__CallerIsSus();
 
         uint256 contributeAmount = etherDepositted[msg.sender];
-        etherDepositted[msg.sender]=0;
+        etherDepositted[msg.sender]-=contributeAmount;
         payable(msg.sender).transfer(contributeAmount);
     }
 
